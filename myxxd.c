@@ -57,8 +57,11 @@ void printDataAsHex(unsigned char *data, size_t size) {
 			}
                 	printf("%02x", data[i]);
 		}
-  		for(unsigned int i = 0; i < 19-size; i++){
+  		for(unsigned int i = 0; i < 16-size; i++){
+			if(i % 2 == 0 && i != 16-size-1) {
 			printf(" ");
+			}
+			printf("  ");
 		}
 	}
 }
@@ -84,7 +87,7 @@ void printDataAsChars(unsigned char *data, size_t size) {
 }
 
 void charToBits(char c) {
-	unsigned int bits[8];
+	unsigned char bits[8];
 	for(unsigned int i = 0; i < 8; i++){
 		if(c % 2 == 1) {
 			bits[i] = 1;
@@ -94,14 +97,26 @@ void charToBits(char c) {
 		}
 		c = c / 2;
 	}
-	for(unsigned int i = 8; i >= 1; i--) {
-		printf("%d", bits[i]);
+	printf(" ");
+	for(int i = 7; i >= 0; i--) {
+		printf("%u", bits[i]);
 	}
 }
 
 void printDataAsBits(unsigned char *data, size_t size) {
-	for(unsigned int i = 0; i < size; i++){
-		 charToBits(data[i]);
+	if(size == 6) {
+		for(unsigned int i = 0; i < size; i++){
+			charToBits(data[i]);
+		}
+	}
+	else {
+		for(unsigned int i = 0; i < size; i++){
+		 	charToBits(data[i]);
+		}
+                for(unsigned int i = 0; i < 6-size; i++){
+			printf("         ");
+                }
+
 	}
 }
 
