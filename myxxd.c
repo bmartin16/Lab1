@@ -57,7 +57,7 @@ void printDataAsHex(unsigned char *data, size_t size) {
 			}
                 	printf("%02x", data[i]);
 		}
-  		for(unsigned int i = 0; i < 26-size; i++){
+  		for(unsigned int i = 0; i < 19-size; i++){
 			printf(" ");
 		}
 	}
@@ -83,6 +83,28 @@ void printDataAsChars(unsigned char *data, size_t size) {
   	}
 }
 
+void charToBits(char c) {
+	unsigned int bits[8];
+	for(unsigned int i = 0; i < 8; i++){
+		if(c % 2 == 1) {
+			bits[i] = 1;
+		}
+		else {
+			bits[i] = 0;
+		}
+		c = c / 2;
+	}
+	for(unsigned int i = 8; i >= 1; i--) {
+		printf("%d", bits[i]);
+	}
+}
+
+void printDataAsBits(unsigned char *data, size_t size) {
+	for(unsigned int i = 0; i < size; i++){
+		 charToBits(data[i]);
+	}
+}
+
 void readAndPrintInputAsHex(FILE *input) {
   unsigned char data[16];
   int numBytesRead = fread(data, 1, 16, input);
@@ -106,7 +128,18 @@ void readAndPrintInputAsHex(FILE *input) {
  * input: input stream
  **/
 void readAndPrintInputAsBits(FILE *input) {
-  printf("TODO 3: readAndPrintInputAsBits\n");
+  unsigned char data[6];
+  int numBytesRead = fread(data, 1, 6, input);
+  unsigned int offset = 0;
+  while (numBytesRead != 0) {
+    printf("%08x:", offset);
+    offset += numBytesRead;
+    printDataAsBits(data, numBytesRead);
+    printf("  ");
+    printDataAsChars(data, numBytesRead);
+    printf("\n");
+    numBytesRead = fread(data, 1, 6, input);
+  }
 }
 
 int main(int argc, char **argv) {
