@@ -86,7 +86,7 @@ void printDataAsChars(unsigned char *data, size_t size) {
   	}
 }
 
-void charToBits(char c) {
+void charToBits(unsigned char c) {
 	unsigned char bits[8];
 	for(unsigned int i = 0; i < 8; i++){
 		if(c % 2 == 1) {
